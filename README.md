@@ -16,6 +16,6 @@ rit-lucene
 	.../lib/lucene-4.10.1/core/lucene-core-4.4.0.jar
 	.../lib/lucene-4.10.1/demo/lucene-demo-4.4.0.jar
 	
-	.../lib/lib/jsoup-1.8.1/jsoup-1.8.1.jar
+	.../lib/jsoup-1.8.1/jsoup-1.8.1.jar
 
 6) Run :)
