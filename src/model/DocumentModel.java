@@ -1,5 +1,7 @@
 package model;
 
+import logic.CleanerText;
+
 public class DocumentModel {
 
 	private String mPath;
@@ -22,48 +24,42 @@ public class DocumentModel {
 	}
 
 	public void setContent(String pContent) {
-		/*
-		se extrae palabras alfanumericas
-		se convierten las letras a minusculas
-		se aplica stemming si la palabra son solo letras
-		eliminar tildes; preservar enne
-		eliminar stopwords (Lucene lo aplica automaticamente)
-		*/
+		pContent = CleanerText.cleanAlphaNumeric(pContent);
+		pContent = CleanerText.lower(pContent);
+		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pContent = CleanerText.deleteSpecialChars(pContent);
+		// eliminar stopwords (Lucene lo aplica)
 		this.mContent = pContent;
 	}
 
 	public void setTitle(String pTitle) {
-		/*
-		se extrae palabras alfanumericas
-		se convierten las letras a minusculas
-		se aplica stemming si la palabra son solo letras
-		eliminar tildes; preservar enne
-		eliminar stopwords (Lucene lo aplica automaticamente)
-		*/
+		pTitle = CleanerText.cleanAlphaNumeric(pTitle);
+		pTitle = CleanerText.lower(pTitle);
+		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pTitle = CleanerText.deleteSpecialChars(pTitle);
+		// eliminar stopwords (Lucene lo aplica)
 		this.mTitle = pTitle;
 	}
 	
 	public void addHeads(String pHeads) {
-		/*
-		se extrae palabras alfanumericas
-		se convierten las letras a minusculas
-		se aplica stemming si la palabra son solo letras
-		eliminar tildes; preservar enne
-		eliminar stopwords (Lucene lo aplica automaticamente)
-		*/
+		pHeads = CleanerText.cleanAlphaNumeric(pHeads);
+		pHeads = CleanerText.lower(pHeads);
+		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pHeads = CleanerText.deleteSpecialChars(pHeads);
+		// eliminar stopwords (Lucene lo aplica)
 		this.mHeads = this.mHeads+" "+pHeads;
 	}
 	
 	public void addLinks(String pLinks) {
+		// NO SE SEPARA EN PALABRAS. Se desean preservar las frases  (Lucene lo aplica)
+		pLinks = CleanerText.cleanAlphaNumeric(pLinks);
+		pLinks = CleanerText.lower(pLinks);
+		pLinks = CleanerText.deleteSpecialChars(pLinks);
 		/*
-		NO SE SEPARA EN PALABRAS. Se desean preservar las frases.
-		eliminar los caracteres que no sean letras o números
-		se convierten las letras a minúsculas
-		eliminar tildes; preservar eñe
+		
 		*/
 		this.mLinks = this.mLinks+" "+pLinks;
 	}
-	
 
 	public String getPath() {
 		return mPath;
@@ -84,5 +80,6 @@ public class DocumentModel {
 	public String getLinks() {
 		return mLinks;
 	}
+	
 	
 }

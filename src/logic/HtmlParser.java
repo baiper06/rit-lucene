@@ -43,7 +43,7 @@ public DocumentModel getDocument( File pFile ) {
 		}
 		DocumentModel doc_model = new DocumentModel();
 		
-		doc_model.setPath(pFile.getName());
+		doc_model.setPath(pFile.getAbsolutePath());
 		// get page title
 		String title = doc.title();
 		doc_model.setTitle(title);
