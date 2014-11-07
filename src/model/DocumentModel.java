@@ -26,27 +26,27 @@ public class DocumentModel {
 	public void setContent(String pContent) {
 		pContent = CleanerText.cleanAlphaNumeric(pContent);
 		pContent = CleanerText.lower(pContent);
-		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pContent = CleanerText.stemming(pContent);
 		pContent = CleanerText.deleteSpecialChars(pContent);
-		// eliminar stopwords (Lucene lo aplica)
+		pContent = CleanerText.removeStopwords(pContent);
 		this.mContent = pContent;
 	}
 
 	public void setTitle(String pTitle) {
 		pTitle = CleanerText.cleanAlphaNumeric(pTitle);
 		pTitle = CleanerText.lower(pTitle);
-		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pTitle = CleanerText.stemming(pTitle);
 		pTitle = CleanerText.deleteSpecialChars(pTitle);
-		// eliminar stopwords (Lucene lo aplica)
+		pTitle = CleanerText.removeStopwords(pTitle);
 		this.mTitle = pTitle;
 	}
 	
 	public void addHeads(String pHeads) {
 		pHeads = CleanerText.cleanAlphaNumeric(pHeads);
 		pHeads = CleanerText.lower(pHeads);
-		// se aplica stemming si la palabra son solo letras (Lucene lo aplica automaticamente)
+		pHeads = CleanerText.stemming(pHeads);
 		pHeads = CleanerText.deleteSpecialChars(pHeads);
-		// eliminar stopwords (Lucene lo aplica)
+		pHeads = CleanerText.removeStopwords(pHeads);
 		this.mHeads = this.mHeads+" "+pHeads;
 	}
 	
@@ -55,9 +55,6 @@ public class DocumentModel {
 		pLinks = CleanerText.cleanAlphaNumeric(pLinks);
 		pLinks = CleanerText.lower(pLinks);
 		pLinks = CleanerText.deleteSpecialChars(pLinks);
-		/*
-		
-		*/
 		this.mLinks = this.mLinks+" "+pLinks;
 	}
 

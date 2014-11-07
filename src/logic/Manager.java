@@ -49,19 +49,18 @@ public class Manager{
 		mHtmlCreator 	 = new HtmlCreator(mFolderOutputs, mFolderColection);
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void addDocs(IndexWriter pWriter) throws IOException {
-		
 		HtmlParser parser = new HtmlParser(mFolderColection);
 		ArrayList<DocumentModel> docs = parser.getDocuments();
 		for( int i=0; i<docs.size(); i++){
 			  System.out.println(docs.get(i).getPath());
 			  Document doc = new Document();
-			  // TODO: investigar cuando usar TextField() o StringField()
-			  doc.add(new TextField("content", 	docs.get(i).getContent(), 	Field.Store.YES));
-			  doc.add(new TextField("heads", 	docs.get(i).getHeads(), 	Field.Store.YES));
-			  doc.add(new TextField("links", 	docs.get(i).getLinks(), 	Field.Store.YES));
-			  doc.add(new TextField("title", 	docs.get(i).getTitle(), 	Field.Store.YES));
-			  doc.add(new TextField("path", 	docs.get(i).getPath(), 		Field.Store.YES));
+			  doc.add(new Field("content", 	docs.get(i).getContent(), 	Field.Store.YES, Field.Index.ANALYZED));
+			  doc.add(new Field("heads", 	docs.get(i).getHeads(), 	Field.Store.NO,  Field.Index.ANALYZED));
+			  doc.add(new Field("title", 	docs.get(i).getTitle(), 	Field.Store.YES, Field.Index.ANALYZED));
+			  //doc.add(new Field("links", 	docs.get(i).getLinks(), 	Field.Store.NO,  Field.Index.NOT_ANALYZED));
+			  doc.add(new Field("path", 	docs.get(i).getPath(), 		Field.Store.YES, Field.Index.NOT_ANALYZED));
 			  pWriter.addDocument(doc);
 		}
 	}
@@ -91,7 +90,6 @@ public class Manager{
 		Query q = new QueryParser(pField, mAnalyzer).parse(pQuery);
 		
 		// Searching code
-		int hitsPerPage = 20;
 	    IndexReader reader = DirectoryReader.open(mIndex);
 	    IndexSearcher searcher = new IndexSearcher(reader);
 	    TopScoreDocCollector collector = TopScoreDocCollector.create(LEN_HITS, true);
