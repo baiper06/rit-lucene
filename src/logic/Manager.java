@@ -31,7 +31,7 @@ public class Manager{
 	public static final String FOLDER_INDEX 	= "/index";
 	public static final String FOLDER_COLECTION = "/coleccion";
 	public static final String FOLDER_OUTPUTS	= "/outputs";
-	public static final int LEN_HITS			= 20;
+	public static final int LEN_HITS			= 100;
 	
 	
 	private String 		mFolderIndex;
@@ -56,21 +56,17 @@ public class Manager{
 		for( int i=0; i<docs.size(); i++){
 			  System.out.println(docs.get(i).getPath());
 			  Document doc = new Document();
-			  doc.add(new Field("content", 	docs.get(i).getContent(), 	Field.Store.YES, Field.Index.ANALYZED));
-			  doc.add(new Field("title", 	docs.get(i).getTitle(), 	Field.Store.YES, Field.Index.ANALYZED));		  
+			  doc.add(new Field("contenido",docs.get(i).getContent(), 	Field.Store.YES, Field.Index.ANALYZED));
+			  doc.add(new Field("titulo", 	docs.get(i).getTitle(), 	Field.Store.YES, Field.Index.ANALYZED));		  
 			  doc.add(new Field("path", 	docs.get(i).getPath(), 		Field.Store.YES, Field.Index.NOT_ANALYZED));
 			  
 			  ArrayList<String> heads = docs.get(i).getHeads();
 			  for( int j=0; j<heads.size(); j++){
-				  doc.add(new Field("heads", heads.get(j), 	Field.Store.YES,  Field.Index.ANALYZED)); 
+				  doc.add(new Field("encabezado", heads.get(j), 	Field.Store.YES,  Field.Index.ANALYZED)); 
 			  }
-			  ArrayList<String> links = docs.get(i).getLinks();
-			  if( docs.get(i).getPath().compareTo("/home/bairon/workspace/rit-lucene/doc/coleccion/España.htm") == 0 ){
-				  System.out.println(links);
-			  }
-			  
+			  ArrayList<String> links = docs.get(i).getLinks();			  
 			  for( int j=0; j<links.size(); j++){
-				  doc.add(new Field("links", links.get(j), 	Field.Store.YES,  Field.Index.NOT_ANALYZED)); 
+				  doc.add(new Field("referencias", links.get(j), 	Field.Store.YES,  Field.Index.NOT_ANALYZED)); 
 			  }
 			  pWriter.addDocument(doc);
 		}
@@ -98,7 +94,7 @@ public class Manager{
 		pQuery = CleanerText.cleanAlphaNumeric(pQuery);
 		pQuery = CleanerText.lower(pQuery);
 		pQuery = CleanerText.deleteSpecialChars(pQuery);
-		if( pField.compareTo("links") != 0 ){
+		if( pField.compareTo("referencias") != 0 ){
 			pQuery = CleanerText.stemming(pQuery);
 			pQuery = CleanerText.removeStopwords(pQuery);
 		}
@@ -123,7 +119,7 @@ public class Manager{
 	    for(int i=0;i<hits.length;++i){
 	      int docId = hits[i].doc;
 	      Document d = searcher.doc(docId);
-	      System.out.println((i + 1) + ". " + d.get("title")+ ">> " +d.get("heads"));
+	      System.out.println((i + 1) + ". " + d.get("titulo") );
 	    }
 	    mHtmlCreator.setAttr(pQuery, hits, searcher);
 	    mHtmlCreator.createHtml();

@@ -75,5 +75,3 @@ public class CleanerText {
     }
 
 }
-
-

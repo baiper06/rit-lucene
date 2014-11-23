@@ -82,24 +82,24 @@ public class HtmlCreator {
 			 } catch (IOException e) {
 				e.printStackTrace();
 			 }
-			 String cntnt = d.get("content");
+			 String cntnt = d.get("contenido");
 			 
 			 // truncar contenido
 			 if( cntnt.length() > CNT_CHARS ){
 				 cntnt = cntnt.substring(0, CNT_CHARS)+"...";
 			 }
-			 
+			 /*
 			 cntnt = "";
-			 for(int x=0; x<d.getFields("links").length; x++){
-				 cntnt += "<br />"+d.getFields("links")[x].stringValue();
+			 for(int x=0; x<d.getFields("referencias").length; x++){
+				 cntnt += "<br />"+d.getFields("referencias")[x].stringValue();
 			 }
-			 
+			 */
 			 String itm= "<div class='col-sm-8 col-sm-offset-2'>" 	+ 
 						 " <div class='panel panel-default'>" 		+ 
 						 " <div class='panel-heading'>" 			+ 
 						 " <h3 class='panel-title'>" 				+ 
 						 " <div class='col-sm-8'>" 					+ 
-						 " <span class='badge'>"+(i+1)+"</span> "+d.get("title")+ 
+						 " <span class='badge'>"+(i+1)+"</span> "+d.get("titulo")+ 
 						 " </div>" 									+ 
 						 " <div class='col-sm-4'></div>" 			+ 
 						 " <p class='text-right'>" 					+ 
