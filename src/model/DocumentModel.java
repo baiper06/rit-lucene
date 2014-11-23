@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import logic.CleanerText;
 
 public class DocumentModel {
@@ -7,12 +9,12 @@ public class DocumentModel {
 	private String mPath;
 	private String mContent;
 	private String mTitle;
-	private String mHeads;
-	private String mLinks;
+	private ArrayList<String> mHeads;
+	private ArrayList<String> mLinks;
 	
 	public DocumentModel(){
-		mHeads = "";
-		mLinks = "";
+		mHeads = new ArrayList<String>();
+		mLinks = new ArrayList<String>();
 	}
 	
 	public String toString(){
@@ -41,21 +43,23 @@ public class DocumentModel {
 		this.mTitle = pTitle;
 	}
 	
-	public void addHeads(String pHeads) {
-		pHeads = CleanerText.cleanAlphaNumeric(pHeads);
-		pHeads = CleanerText.lower(pHeads);
-		pHeads = CleanerText.stemming(pHeads);
-		pHeads = CleanerText.deleteSpecialChars(pHeads);
-		pHeads = CleanerText.removeStopwords(pHeads);
-		this.mHeads = this.mHeads+" "+pHeads;
+	public void addHeads(String pHead) {
+		pHead = CleanerText.cleanAlphaNumeric(pHead);
+		pHead = CleanerText.lower(pHead);
+		pHead = CleanerText.stemming(pHead);
+		pHead = CleanerText.deleteSpecialChars(pHead);
+		pHead = CleanerText.removeStopwords(pHead);
+		this.mHeads.add(pHead);
 	}
 	
-	public void addLinks(String pLinks) {
-		// NO SE SEPARA EN PALABRAS. Se desean preservar las frases  (Lucene lo aplica)
-		pLinks = CleanerText.cleanAlphaNumeric(pLinks);
-		pLinks = CleanerText.lower(pLinks);
-		pLinks = CleanerText.deleteSpecialChars(pLinks);
-		this.mLinks = this.mLinks+" "+pLinks;
+	public void addLinks(String pLink) {
+		// NO SE SEPARA EN PALABRAS. Se desean preservar las frases
+		pLink = CleanerText.cleanAlphaNumeric(pLink);
+		pLink = CleanerText.lower(pLink);
+		pLink = CleanerText.stemming(pLink);
+		pLink = CleanerText.deleteSpecialChars(pLink);
+		//pLink = CleanerText.removeStopwords(pLink);
+		this.mLinks.add(pLink);
 	}
 
 	public String getPath() {
@@ -70,11 +74,11 @@ public class DocumentModel {
 		return mTitle;
 	}
 
-	public String getHeads() {
+	public ArrayList<String> getHeads() {
 		return mHeads;
 	}
 
-	public String getLinks() {
+	public ArrayList<String> getLinks() {
 		return mLinks;
 	}
 	

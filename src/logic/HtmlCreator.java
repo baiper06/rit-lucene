@@ -88,7 +88,12 @@ public class HtmlCreator {
 			 if( cntnt.length() > CNT_CHARS ){
 				 cntnt = cntnt.substring(0, CNT_CHARS)+"...";
 			 }
-			  
+			 
+			 cntnt = "";
+			 for(int x=0; x<d.getFields("links").length; x++){
+				 cntnt += "<br />"+d.getFields("links")[x].stringValue();
+			 }
+			 
 			 String itm= "<div class='col-sm-8 col-sm-offset-2'>" 	+ 
 						 " <div class='panel panel-default'>" 		+ 
 						 " <div class='panel-heading'>" 			+ 

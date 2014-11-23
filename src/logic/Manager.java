@@ -57,10 +57,21 @@ public class Manager{
 			  System.out.println(docs.get(i).getPath());
 			  Document doc = new Document();
 			  doc.add(new Field("content", 	docs.get(i).getContent(), 	Field.Store.YES, Field.Index.ANALYZED));
-			  doc.add(new Field("heads", 	docs.get(i).getHeads(), 	Field.Store.NO,  Field.Index.ANALYZED));
-			  doc.add(new Field("title", 	docs.get(i).getTitle(), 	Field.Store.YES, Field.Index.ANALYZED));
-			  //doc.add(new Field("links", 	docs.get(i).getLinks(), 	Field.Store.NO,  Field.Index.NOT_ANALYZED));
+			  doc.add(new Field("title", 	docs.get(i).getTitle(), 	Field.Store.YES, Field.Index.ANALYZED));		  
 			  doc.add(new Field("path", 	docs.get(i).getPath(), 		Field.Store.YES, Field.Index.NOT_ANALYZED));
+			  
+			  ArrayList<String> heads = docs.get(i).getHeads();
+			  for( int j=0; j<heads.size(); j++){
+				  doc.add(new Field("heads", heads.get(j), 	Field.Store.YES,  Field.Index.ANALYZED)); 
+			  }
+			  ArrayList<String> links = docs.get(i).getLinks();
+			  if( docs.get(i).getPath().compareTo("/home/bairon/workspace/rit-lucene/doc/coleccion/España.htm") == 0 ){
+				  System.out.println(links);
+			  }
+			  
+			  for( int j=0; j<links.size(); j++){
+				  doc.add(new Field("links", links.get(j), 	Field.Store.YES,  Field.Index.NOT_ANALYZED)); 
+			  }
 			  pWriter.addDocument(doc);
 		}
 	}
@@ -82,12 +93,22 @@ public class Manager{
 	public void search( String pField, String pQuery ) throws IOException, ParseException{
 		System.out.println("Buscando '"+pQuery+"' en el campo '"+pField+"'...");
 		
+		/*
 		// limpiar query
 		pQuery = CleanerText.cleanAlphaNumeric(pQuery);
 		pQuery = CleanerText.lower(pQuery);
-		
+		pQuery = CleanerText.deleteSpecialChars(pQuery);
+		if( pField.compareTo("links") != 0 ){
+			pQuery = CleanerText.stemming(pQuery);
+			pQuery = CleanerText.removeStopwords(pQuery);
+		}
+		*/
+		System.out.println("Buscando '"+pQuery+"' en el campo '"+pField+"'...");
 		//	The \"title\" arg specifies the default field to use when no field is explicitly specified in the query
+		
 		Query q = new QueryParser(pField, mAnalyzer).parse(pQuery);
+		
+		System.out.println("Query '"+q.toString()+"'...");
 		
 		// Searching code
 	    IndexReader reader = DirectoryReader.open(mIndex);
@@ -98,13 +119,12 @@ public class Manager{
 	    
 	    //	Code to display the results of search
 	    System.out.println("Se encontraron " + hits.length + " resultados");
-	    /*
+	    
 	    for(int i=0;i<hits.length;++i){
 	      int docId = hits[i].doc;
 	      Document d = searcher.doc(docId);
-	      System.out.println((i + 1) + ". " + d.get("title"));
+	      System.out.println((i + 1) + ". " + d.get("title")+ ">> " +d.get("heads"));
 	    }
-	    */
 	    mHtmlCreator.setAttr(pQuery, hits, searcher);
 	    mHtmlCreator.createHtml();
 	    // reader can only be closed when there is no need to access the documents any more
